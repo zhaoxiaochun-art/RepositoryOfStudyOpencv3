@@ -1,0 +1,25 @@
+<UI version="4.0" >
+ <class>studyOpencv3Class</class>
+ <widget class="QDialog" name="studyOpencv3Class" >
+  <property name="objectName" >
+   <string notr="true">studyOpencv3Class</string>
+  </property>
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>400</height>
+   </rect>
+  </property>
+  <property name="windowTitle" >
+   <string>studyOpencv3</string>
+  </property>$centralwidget$
+ </widget>
+ <layoutDefault spacing="6" margin="11" />
+ <pixmapfunction></pixmapfunction>
+ <resources>
+   <include location="studyOpencv3.qrc"/>
+ </resources>
+ <connections/>
+</UI>
