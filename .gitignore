@@ -1,1 +1,9 @@
 /include
+/.vs
+/Debug
+/studyOpencv3/Debug
+/studyOpencv3/Release
+/studyOpencv3/studyOpencv3.qrc
+/studyOpencv3/studyOpencv3.vcxproj
+/studyOpencv3/studyOpencv3.vcxproj.filters
+/studyOpencv3/studyOpencv3.vcxproj.user
