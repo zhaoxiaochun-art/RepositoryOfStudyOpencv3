@@ -7,7 +7,7 @@ using namespace std;
 using namespace cv;
 
 //第三个程序：拖动条
-int g_slider_position = 0;
+/*int g_slider_position = 0;
 int g_run = 1,g_dontset = 0;//start out in single step mode
 VideoCapture g_cap;
 void onTrackbarSlide(int pos, void *)
@@ -15,7 +15,22 @@ void onTrackbarSlide(int pos, void *)
 	g_cap.set(CAP_PROP_POS_FRAMES, pos);
 	if (!g_dontset) g_run = 1;
 	g_dontset = 0;
-}
+}*/
+
+//示例2_5
+/*void Example2_5(const Mat &image)
+{
+	namedWindow("Example2_5-in", WINDOW_NORMAL);
+	namedWindow("Example2_5-out", WINDOW_NORMAL);
+	imshow("Example2_5-in", image);
+	Mat out;
+	GaussianBlur(image, out, Size(5, 5), 3, 3);//Size高斯内核的大小必须是正奇数，后面3,3分别是x、y轴上面的标准偏差
+	GaussianBlur(out, out, Size(5, 5), 3, 3);
+	imshow("Example2_5-out", out);
+	waitKey(0);
+	destroyWindow("Example2_5-in");
+	destroyWindow("Example2_5 - out");
+}*/
 
 int main(int argc, char *argv[])
 {	
@@ -52,7 +67,7 @@ int main(int argc, char *argv[])
 	return 0;*/
 
 	//第三个程序：拖动条
-	namedWindow("Example2_4", WINDOW_NORMAL);
+	/*namedWindow("Example2_4", WINDOW_NORMAL);
 	g_cap.open("1.mov");
 	int frames = (int)g_cap.get(CAP_PROP_FRAME_COUNT);
 	int tmpW = (int)g_cap.get(CAP_PROP_FRAME_WIDTH);
@@ -77,5 +92,9 @@ int main(int argc, char *argv[])
 		if (c == 27) break;//ESC
 	}
 	destroyWindow("Example2_4");
-	return 0;
+	return 0;*/
+
+	//示例2_5
+	/*Mat img = imread("1233.jpg", IMREAD_REDUCED_COLOR_2);
+	Example2_5(img); */
 }
