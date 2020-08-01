@@ -5,6 +5,7 @@
 #include "opencv2/imgproc/imgproc.hpp"
 using namespace std;
 using namespace cv;
+#include <QMessageBox>
 
 //第三个程序：拖动条
 /*int g_slider_position = 0;
@@ -32,10 +33,11 @@ void onTrackbarSlide(int pos, void *)
 	destroyWindow("Example2_5 - out");
 }*/
 
+
 int main(int argc, char *argv[])
 {	
-	/*QApplication a(argc, argv);
-	studyOpencv3 w;
+	QApplication a(argc, argv);
+	/*studyOpencv3 w;
 	w.show();
 	return a.exec();*/
 
@@ -97,4 +99,33 @@ int main(int argc, char *argv[])
 	//示例2_5
 	/*Mat img = imread("1233.jpg", IMREAD_REDUCED_COLOR_2);
 	Example2_5(img); */
+	
+	//示例2-6 降采样 转灰色 改像素
+	Mat img1,img2,img_gry,img_cny;
+	namedWindow("Example1", WINDOW_AUTOSIZE);
+	namedWindow("Example1-1", WINDOW_AUTOSIZE);
+	namedWindow("Example2", WINDOW_AUTOSIZE);
+	img1= imread("1233.jpg");
+	imshow("Example1", img1);
+	pyrDown(img1, img2);//缩小一次
+	cvtColor(img2, img_gry, COLOR_BGR2GRAY);//转为灰度图
+	imshow("Example1-1", img_gry);
+	Canny(img_gry, img_cny,10,100,3,true);//寻找边缘
+	imshow("Example2", img_cny);//显示
+	int x = 16, y = 32;
+	Vec3b intensity = img2.at<Vec3b>(y, x);//Vec3b可以看作是vector<uchar, 3>。
+	uchar blue = intensity[0];
+	uchar green = intensity[1];
+	uchar red = intensity[2];
+	QMessageBox::about(nullptr, "BGR value", QString::number((unsigned int)blue) + "," + QString::number((unsigned int)green) + "," + QString::number((unsigned int)red));
+	QMessageBox::about(nullptr, "GRAY value", QString::number((unsigned int)(img_gry.at<uchar>(y,x))));
+	for (int i=0;i<100;i++)
+	{
+		img_gry.at<uchar>(y++, x++) = 255;
+	}
+	imshow("Example1-1", img_gry);
+	waitKey(0);
+	destroyWindow("Example1");
+	destroyWindow("Example2");
+	return 0;
 }
