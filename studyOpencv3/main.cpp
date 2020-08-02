@@ -35,7 +35,7 @@ void onTrackbarSlide(int pos, void *)
 
 
 int main(int argc, char *argv[])
-{	
+{
 	QApplication a(argc, argv);
 	/*studyOpencv3 w;
 	w.show();
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
 			destroyWindow("Example3");
 			return 1;
 		}
-		if (waitKey(33) > 0) break;
+		if (waitKey(30) > 0) break;
 	}
 	return 0;*/
 
@@ -99,9 +99,9 @@ int main(int argc, char *argv[])
 	//示例2_5
 	/*Mat img = imread("1233.jpg", IMREAD_REDUCED_COLOR_2);
 	Example2_5(img); */
-	
+
 	//示例2-6 降采样 转灰色 改像素
-	Mat img1,img2,img_gry,img_cny;
+	/*Mat img1,img2,img_gry,img_cny;
 	namedWindow("Example1", WINDOW_AUTOSIZE);
 	namedWindow("Example1-1", WINDOW_AUTOSIZE);
 	namedWindow("Example2", WINDOW_AUTOSIZE);
@@ -127,5 +127,31 @@ int main(int argc, char *argv[])
 	waitKey(0);
 	destroyWindow("Example1");
 	destroyWindow("Example2");
+	return 0;*/
+
+	//示例2-11
+	namedWindow("Example1", WINDOW_AUTOSIZE);
+	namedWindow("Example2", WINDOW_AUTOSIZE);
+	VideoCapture cap("1.mov");
+	double fps = cap.get(CAP_PROP_FPS);
+	Size sz(
+		(int)cap.get(CAP_PROP_FRAME_WIDTH),
+		(int)cap.get(CAP_PROP_FRAME_HEIGHT)
+	);
+	VideoWriter writer;
+	writer.open("1.mov", CAP_OPENCV_MJPEG, fps, sz);//在opencv4.0中CV_FOURCC(‘P’, ‘I’, ‘M’, ‘1’)CV_FOURCC(‘M’,‘J’,‘P’,‘G’)，已经改为CAP_OPENCV_MJPEG，
+	Mat logpolar_frame, bgr_frame;
+	for (;;)
+	{
+		cap>>bgr_frame;
+		if (bgr_frame.empty())break;
+		imshow("Example1", bgr_frame);
+		logPolar(bgr_frame, logpolar_frame, Point2f(bgr_frame.cols / 2, bgr_frame.rows / 2), 40, WARP_FILL_OUTLIERS);
+		imshow("Example2", logpolar_frame);
+		waitKey(30);
+	}
+	destroyWindow("Example1");
+	destroyWindow("Example2");
+	cap.release();
 	return 0;
 }
