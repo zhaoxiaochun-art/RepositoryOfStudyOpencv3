@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 	if (!src.data) return -1;//和上面那句是一个意思
 	namedWindow("input image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
 	imshow("input image", src);
-	int cols=src.cols*src.channels();//列数，把bgr都放里面了
+	/*int cols=src.cols*src.channels();//列数，把bgr都放里面了
 	int offsetx = src.channels();
 	int rows = src.rows;
 	dst = Mat::zeros(src.size(), src.type());
@@ -62,19 +62,16 @@ int main(int argc, char *argv[])
 			output[col] = saturate_cast<uchar>(5 * current[col] - (current[col - offsetx] + current[col + offsetx] + previous[col] + next[col]));
 			//I(i,j) = 5*I(i,j) - [I(i-1,j) + I(i+1,j) + I(i,j-1) + I(i,j+1)]
 		}
-	}
+	}*/
 
 	// openCV API 掩膜操作
-	//定义一个掩膜
-	//double t = getTickCount();  //获得当前时间
-	//Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);
-	////src.depth() 表示与原图深度一样，-1也表示一样
-	//filter2D(src, dst, src.depth(), kernel);
-	//double time = (getTickCount() - t) / getTickFrequency();
+	
+	Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);//定义一个掩膜	
+	filter2D(src, dst, src.depth(), kernel);//src.depth() 表示与原图深度一样，-1也表示一样
 	//显示
 	namedWindow("contrast Image",WINDOW_AUTOSIZE);
 	imshow("contrast Image", dst);
-	imwrite("d:/desktop/dst.png", dst);
+	imwrite("d:/desktop/dst.jpg", dst);
 	waitKey(0);
 	return 0;
 	//第二个程序：视频↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
