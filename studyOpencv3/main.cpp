@@ -42,13 +42,18 @@ int main(int argc, char *argv[])
 	return a.exec();*/
 
 	//第一个程序：图片↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-	//Mat img = imread("1233.jpg",IMREAD_REDUCED_COLOR_2);
-	//if (img.empty()) return -1;
-	////namedWindow("Example1", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
-	//imshow("Example1", img);
-	//waitKey(0);
-	//destroyWindow("Example1");
-
+	Mat img = imread("1233.jpg");// , IMREAD_REDUCED_COLOR_2);
+	if (img.empty()) return -1;
+	namedWindow("Example1", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
+	imshow("Example1", img);
+	Mat img_gry;
+	cvtColor(img, img_gry, COLOR_BGR2GRAY);//转为灰度图 实际上排列顺序是BGR，即字母序
+	//HLS 是Hue(色相)、Luminance(亮度)、Saturation(饱和度)
+	namedWindow("Example2", WINDOW_AUTOSIZE);
+	imshow("Example2", img_gry);
+	imwrite("D:/desktop/grey.jpg", img_gry);
+	waitKey(0);
+	return 0;
 	//第二个程序：视频↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	/*namedWindow("Example3", WINDOW_NORMAL);
 	VideoCapture cap;
@@ -130,7 +135,7 @@ int main(int argc, char *argv[])
 	return 0;*/
 
 	//示例2-11
-	namedWindow("Example1", WINDOW_AUTOSIZE);
+	/*namedWindow("Example1", WINDOW_AUTOSIZE);
 	namedWindow("Example2", WINDOW_AUTOSIZE);
 	VideoCapture cap("1.mov");
 	double fps = cap.get(CAP_PROP_FPS);
@@ -153,5 +158,5 @@ int main(int argc, char *argv[])
 	destroyWindow("Example1");
 	destroyWindow("Example2");
 	cap.release();
-	return 0;
+	return 0;*/
 }
