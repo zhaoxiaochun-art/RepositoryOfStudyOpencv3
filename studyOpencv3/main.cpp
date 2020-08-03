@@ -42,16 +42,39 @@ int main(int argc, char *argv[])
 	return a.exec();*/
 
 	//第一个程序：图片↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-	Mat img = imread("1233.jpg");// , IMREAD_REDUCED_COLOR_2);
-	if (img.empty()) return -1;
-	namedWindow("Example1", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
-	imshow("Example1", img);
-	Mat img_gry;
-	cvtColor(img, img_gry, COLOR_BGR2GRAY);//转为灰度图 实际上排列顺序是BGR，即字母序
-	//HLS 是Hue(色相)、Luminance(亮度)、Saturation(饱和度)
-	namedWindow("Example2", WINDOW_AUTOSIZE);
-	imshow("Example2", img_gry);
-	imwrite("D:/desktop/grey.jpg", img_gry);
+	Mat src, dst;
+	src = imread("1233.jpg");// , IMREAD_REDUCED_COLOR_2);
+	//if (src.empty()) return -1;
+	if (!src.data) return -1;//和上面那句是一个意思
+	namedWindow("input image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
+	imshow("input image", src);
+	int cols=src.cols*src.channels();//列数，把bgr都放里面了
+	int offsetx = src.channels();
+	int rows = src.rows;
+	dst = Mat::zeros(src.size(), src.type());
+	for (int row = 1; row < rows - 1; row++){
+		const uchar* current = src.ptr<uchar>(row);
+		const uchar* previous = src.ptr<uchar>(row - 1);
+		const uchar* next = src.ptr<uchar>(row + 1);
+		uchar *output = dst.ptr<uchar>(row);
+		for (int col= offsetx;col<cols-offsetx;col++)
+		{
+			output[col] = saturate_cast<uchar>(5 * current[col] - (current[col - offsetx] + current[col + offsetx] + previous[col] + next[col]));
+			//I(i,j) = 5*I(i,j) - [I(i-1,j) + I(i+1,j) + I(i,j-1) + I(i,j+1)]
+		}
+	}
+
+	// openCV API 掩膜操作
+	//定义一个掩膜
+	//double t = getTickCount();  //获得当前时间
+	//Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);
+	////src.depth() 表示与原图深度一样，-1也表示一样
+	//filter2D(src, dst, src.depth(), kernel);
+	//double time = (getTickCount() - t) / getTickFrequency();
+	//显示
+	namedWindow("contrast Image",WINDOW_AUTOSIZE);
+	imshow("contrast Image", dst);
+	imwrite("d:/desktop/dst.png", dst);
 	waitKey(0);
 	return 0;
 	//第二个程序：视频↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
