@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
 	/*int cols=src.cols*src.channels();//列数，把bgr都放里面了
 	int offsetx = src.channels();
 	int rows = src.rows;
-	dst = Mat::zeros(src.size(), src.type());
+	dst = Mat::zeros(src.size(), src.type());//zeros代表rgb是000的黑色图片，大小和类型和src一样
 	for (int row = 1; row < rows - 1; row++){
 		const uchar* current = src.ptr<uchar>(row);
 		const uchar* previous = src.ptr<uchar>(row - 1);
@@ -61,13 +61,17 @@ int main(int argc, char *argv[])
 		{
 			output[col] = saturate_cast<uchar>(5 * current[col] - (current[col - offsetx] + current[col + offsetx] + previous[col] + next[col]));
 			//I(i,j) = 5*I(i,j) - [I(i-1,j) + I(i+1,j) + I(i,j-1) + I(i,j+1)]
+			//saturate_cast<uchar>把后面的数据锁到0-255之间
 		}
 	}*/
 
 	// openCV API 掩膜操作
 	
+	double t = getTickCount();
 	Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);//定义一个掩膜	
 	filter2D(src, dst, src.depth(), kernel);//src.depth() 表示与原图深度一样，-1也表示一样
+	double timeconsume = (getTickCount() - t) / getTickFrequency();//tick数除以每秒的tick数，得出秒数
+	QMessageBox::about(nullptr,"TIMECONSUME",QString::number(timeconsume));
 	//显示
 	namedWindow("contrast Image",WINDOW_AUTOSIZE);
 	imshow("contrast Image", dst);
