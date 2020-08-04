@@ -60,13 +60,25 @@ int main(int argc, char *argv[])
 	cvtColor(src, dst, COLOR_BGR2GRAY);
 	namedWindow("output2 image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
 	imshow("output2 image", dst);
+	imwrite("d:/desktop/i.jpg", dst);
 
+	int cols = dst.cols;
+	int rows = dst.rows;
+	QMessageBox::about(nullptr,"cols,rows", QString::number(cols) + "列,"+ QString::number(rows) +"行");
 	const uchar*firstRow = dst.ptr<uchar>(0);
-	int myInt = *firstRow;
+	int myInt = firstRow[0];
+	int myInt2 = firstRow[1];
+	int myInt3 = firstRow[2];
+	int myInt4 = firstRow[3];
+	int myInt5 = firstRow[4];
 	QString myIntToStr = QString::number(myInt);//这个输出61不是等号
+	QString myIntToStr2 = QString::number(myInt2);//这个输出61不是等号
+	QString myIntToStr3 = QString::number(myInt3);//这个输出61不是等号
+	QString myIntToStr4 = QString::number(myInt4);//这个输出61不是等号
+	QString myIntToStr5 = QString::number(myInt5);//这个输出61不是等号
 // 	QString grayValue = "";
 // 	grayValue.append(*firstRow);//这个输出等号不是61
-	QMessageBox::about(nullptr, "channels", "BGR:" + QString::number(src.channels()) + ",GRAY:" + QString::number(dst.channels())+ "\n"+ myIntToStr);
+	QMessageBox::about(nullptr, "channels", "BGR:" + QString::number(src.channels()) + ",GRAY:" + QString::number(dst.channels())+ "\n"+ myIntToStr + "\n" + myIntToStr2 + "\n" + myIntToStr3 + "\n" + myIntToStr4 + "\n" + myIntToStr5);
 	/*int cols=src.cols*src.channels();//列数，把bgr都放里面了
 	int offsetx = src.channels();
 	int rows = src.rows;
