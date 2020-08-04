@@ -6,6 +6,10 @@
 using namespace std;
 using namespace cv;
 #include <QMessageBox>
+#include<string>
+#include<cstdio>
+#include <QChar>
+#include <QTextCodec>
 
 //第三个程序：拖动条
 /*int g_slider_position = 0;
@@ -48,6 +52,21 @@ int main(int argc, char *argv[])
 	if (!src.data) return -1;//和上面那句是一个意思
 	namedWindow("input image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
 	imshow("input image", src);
+
+	//dst = src.clone();//11111
+	//src.copyTo(dst);//22222
+	//dst = Mat(src.size()/2, src.type());//33333
+	//dst = Scalar(123, 0, 23);//33333
+	cvtColor(src, dst, COLOR_BGR2GRAY);
+	namedWindow("output2 image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
+	imshow("output2 image", dst);
+
+	const uchar*firstRow = dst.ptr<uchar>(0);
+	int myInt = *firstRow;
+	QString myIntToStr = QString::number(myInt);//这个输出61不是等号
+// 	QString grayValue = "";
+// 	grayValue.append(*firstRow);//这个输出等号不是61
+	QMessageBox::about(nullptr, "channels", "BGR:" + QString::number(src.channels()) + ",GRAY:" + QString::number(dst.channels())+ "\n"+ myIntToStr);
 	/*int cols=src.cols*src.channels();//列数，把bgr都放里面了
 	int offsetx = src.channels();
 	int rows = src.rows;
@@ -67,7 +86,7 @@ int main(int argc, char *argv[])
 
 	// openCV API 掩膜操作
 	
-	double t = getTickCount();
+	/*double t = getTickCount();
 	Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);//定义一个掩膜	
 	filter2D(src, dst, src.depth(), kernel);//src.depth() 表示与原图深度一样，-1也表示一样
 	double timeconsume = (getTickCount() - t) / getTickFrequency();//tick数除以每秒的tick数，得出秒数
@@ -75,7 +94,7 @@ int main(int argc, char *argv[])
 	//显示
 	namedWindow("contrast Image",WINDOW_AUTOSIZE);
 	imshow("contrast Image", dst);
-	imwrite("d:/desktop/dst.jpg", dst);
+	imwrite("d:/desktop/dst.jpg", dst);*/
 	waitKey(0);
 	return 0;
 	//第二个程序：视频↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
