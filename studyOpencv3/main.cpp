@@ -49,23 +49,33 @@ int main(int argc, char *argv[])
 	Mat src, dst;
 	src = imread("1233.jpg");// , IMREAD_REDUCED_COLOR_2);
 	//if (src.empty()) return -1;
-	if (!src.data) return -1;//和上面那句是一个意思
-	namedWindow("input image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
-	imshow("input image", src);
-	Mat M(300, 300, CV_8UC3, Scalar(60, 0, 0));
+	if (!src.data) return -1;
+	Mat M = Mat::zeros(src.size() / 2, src.type());
 	//dst = src.clone();//11111
 	//src.copyTo(dst);//22222
 	//dst = Mat(src.size()/2, src.type());//33333
 	//dst = Scalar(123, 0, 23);//33333
 	//cvtColor(src, dst, COLOR_BGR2GRAY);
 	namedWindow("output2 image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
-	imshow("output2 image", M);
+	RNG randowNum(12345); 
+	Point x1,x2;
+	for (int i=0;i<1000000;i++)
+	{
 
+		x1.x = randowNum.uniform(0, M.cols);
+		x2.x = randowNum.uniform(0, M.cols);
+		x1.y = randowNum.uniform(0, M.rows);
+		x2.y = randowNum.uniform(0, M.rows);
+		Scalar color = Scalar(randowNum.uniform(0, 255), randowNum.uniform(0, 255), randowNum.uniform(0, 255));
+		line(M, x1, x2, color, 1, LINE_8);
+		circle(M, x1, randowNum.uniform(0,255), color, 1, LINE_8);
+		imshow("output2 image", M);
+		if (waitKey(50) > 0)
+		{
+			break;
+		}
+	}
 
-	Mat M2=Mat::zeros(2, 2, CV_8UC1);
-	namedWindow("output3 image", WINDOW_AUTOSIZE);//如果没有这行，下面会自动生成一个Example1窗口
-	imshow("output3 image", M2);
-	//imwrite("d:/desktop/i.jpg", M2);
 
 	//int cols = dst.cols;
 	//int rows = dst.rows;
@@ -102,9 +112,9 @@ int main(int argc, char *argv[])
 	}*/
 
 	// openCV API 掩膜操作
-	
+
 	/*double t = getTickCount();
-	Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);//定义一个掩膜	
+	Mat kernel = (Mat_<char>(3, 3) << 0, -1, 0, -1, 5, -1, 0, -1, 0);//定义一个掩膜
 	filter2D(src, dst, src.depth(), kernel);//src.depth() 表示与原图深度一样，-1也表示一样
 	double timeconsume = (getTickCount() - t) / getTickFrequency();//tick数除以每秒的tick数，得出秒数
 	QMessageBox::about(nullptr,"TIMECONSUME",QString::number(timeconsume));
@@ -112,7 +122,7 @@ int main(int argc, char *argv[])
 	namedWindow("contrast Image",WINDOW_AUTOSIZE);
 	imshow("contrast Image", dst);
 	imwrite("d:/desktop/dst.jpg", dst);*/
-	waitKey(0);
+
 	return 0;
 	//第二个程序：视频↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
 	/*namedWindow("Example3", WINDOW_NORMAL);
